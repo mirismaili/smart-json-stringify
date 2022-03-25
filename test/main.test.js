@@ -23,6 +23,14 @@ const tests = {
   'Different types (Object)': {a: 1, b: 'hello world', c: true, d: null},
   'Object in Array': [[4], 5, [6], {a: 'سلام دنیا'}, {}],
   Complex: {a: [['h', 1, false, {a: [1], b: '3', c: true}]], b: 'x', c: [[]]},
+  'undefined 1': { d: undefined, a: [['h', 1, false, { a: 1, b: '3', c: true }]], x: 'z', b: 'x' },
+  'undefined 2': { a: [['h', 1, false, { a: 1, b: '3', c: true }]], d: undefined, x: 'z', b: 'x' },
+  'undefined 3': { a: [['h', 1, false, { a: 1, b: '3', c: true }]], x: 'z', d: undefined, b: 'x' },
+  'undefined 4': { a: [['h', 1, false, { a: 1, b: '3', c: true }]], x: 'z', b: 'x', d: undefined },
+  'undefined 5': { a: [['h', 1, false, { a: 1, b: '3', c: true }]], x: 'z', b: 'x', d: undefined, e: undefined },
+  'undefined 6': { a: [['h', 1, false, { a: 1, b: '3', c: true }]], x: 'z', d: undefined, e: undefined, b: 'x' },
+  'undefined 7': { a: [['h', 1, false, { a: 1, b: '3', c: true }]], d: undefined, e: undefined, x: 'z', b: 'x' },
+  'undefined 8': { d: undefined, e: undefined, a: [['h', 1, false, { a: 1, b: '3', c: true }]], x: 'z', b: 'x' },
 }
 
 for (const testName in tests) {
@@ -41,8 +49,7 @@ async function test(testName, input) {
   }
   
   const s = Buffer.concat(buffers).toString()
-  const parsed = JSON.parse(s)
-  assert.deepEqual(input, parsed)
+  assert.equal(s, JSON.stringify(input))
   
   console.log('Passed:', testName)
 }

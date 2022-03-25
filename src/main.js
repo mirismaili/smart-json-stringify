@@ -55,7 +55,7 @@ export default class StringifyStream extends Readable {
   popCurrent() {
     this.#currents.pop()
     this.#current = this.#currents.at(-1)
-    this.nextChild()
+    return this.#current
   }
   
   nextChild() {
@@ -63,28 +63,32 @@ export default class StringifyStream extends Readable {
     this.#current.child = this.#current.isArray
       ? this.#current.instance[this.#current.i]
       : this.#current.instance[this.#current.keys[this.#current.i]]
+    return this.#current.child
   }
   
   _read(size) { // eslint-disable-line @typescript-eslint/no-unused-vars
-    while (true) {
+    streaming: while (true) {
       const {size: n, isArray, keys, begin, end, i, child} = this.#current
       const currentLevel = this.#currents.length
       
-      if (i === 0) {
-        this.push(begin)
-      }
+      if (i === 0) this.push(begin)
+      
       if (i === n) {
         this.push(end)
-        if (currentLevel === 1) {
-          this.push(null)
-          break
-        }
-        this.popCurrent()
-        if (this.#current.i === this.#current.size) {
-          continue
-        }
-        this.push(',')
-        break
+        
+        if (currentLevel === 1) // should always be >= 1
+          return this.push(null)
+        
+        const nextCurrent = this.popCurrent()
+        let nextChild
+        do {
+          nextChild = this.nextChild()
+          if (nextCurrent.i === nextCurrent.size) {
+            continue streaming
+          }
+        } while (nextChild === undefined)
+        
+        return this.push(',')
       }
       
       if (
@@ -92,23 +96,28 @@ export default class StringifyStream extends Readable {
         typeof child === 'object' && child // https://stackoverflow.com/questions/18808226/why-is-typeof-null-object#answer-18808270
       ) {
         this.pushCurrent(child)
-        if (!isArray) {
+        if (!isArray)
           this.push(JSON.stringify(keys[i]) + ':')
-        }
-        continue
+        continue // streaming
       }
       
-      const value = JSON.stringify(child)
-      this.push(isArray
-        ? value
-        : JSON.stringify(keys[i]) + ':' + value)
-      
-      this.nextChild()
-      if (i === n - 1) {
-        continue
+      if (child !== undefined) {
+        const value = JSON.stringify(child)
+        this.push(isArray
+          ? value
+          : JSON.stringify(keys[i]) + ':' + value)
       }
-      this.push(',')
-      break
+      
+      let nextChild
+      do {
+        nextChild = this.nextChild()
+        
+        if (this.#current.i === n) 
+          continue streaming
+      } while (nextChild === undefined)
+      
+      if (child !== undefined)
+        this.push(',')
     }
   }
 }

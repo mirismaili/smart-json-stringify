@@ -1,6 +1,6 @@
 {
   "name": "smart-json-stringify",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A native and modern node.js readable-stream to stringify objects at any sizes, without any third-party dependency, with a custom-deep-level option to improve performance if necessary",
   "keywords": [
     "json-stringify",
@@ -27,7 +27,12 @@
     "src"
   ],
   "scripts": {
-    "test": "node test/main.test.js"
+    "test": "node test/main.test.js",
+    "patch-version": "npm version patch --no-git-tag-version",
+    "increase-minor-version": "npm version minor --no-git-tag-version",
+    "increase-major-version": "npm version major --no-git-tag-version",
+    "tag-this-version": "node -e \"require('child_process').execSync('git tag v' + require('./package.json').version)\"",
+    "build-version": "node -r child_process -p \"child_process.execSync('git rev-list --count HEAD').toString().trim() - child_process.execSync('git rev-list --count v' + require('./package.json').version).toString().trim()\""
   },
   "dependencies": {},
   "devDependencies": {},

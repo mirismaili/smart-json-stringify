@@ -2,7 +2,7 @@
 
 > A native and modern node.js **readable-stream** to stringify objects at any sizes, **without any third-party dependency**
 > 
-> *With a **custom-deep-level** option to improve performance if necessary*
+> *With a **custom-deep-level** option to improve **performance (speed)** if necessary*
 
 [![npm (scoped)](https://img.shields.io/npm/v/smart-json-stringify.svg)](https://npmjs.com/package/smart-json-stringify)
 [![install size](https://packagephobia.now.sh/badge?p=smart-json-stringify)](https://packagephobia.now.sh/result?p=smart-json-stringify)

@@ -6,8 +6,7 @@
 import {Readable} from 'node:stream'
 
 export default class StringifyStream extends Readable {
-  #instance
-  #deepLevel
+  deepLevel
   #current
   #currents = []
   
@@ -20,10 +19,9 @@ export default class StringifyStream extends Readable {
    */
   constructor(instance, deepLevel = Number.POSITIVE_INFINITY, options) {
     super(options)
-    this.#instance = instance
-    this.#deepLevel = deepLevel
+    this.deepLevel = deepLevel
     if (!instance || typeof instance !== 'object' || deepLevel < 1) {
-      this.push(JSON.stringify(this.#instance))
+      this.push(JSON.stringify(instance))
       this.push(null)
       return this
     }
@@ -92,7 +90,7 @@ export default class StringifyStream extends Readable {
       }
       
       if (
-        currentLevel < this.#deepLevel &&
+        currentLevel < this.deepLevel &&
         typeof child === 'object' && child // https://stackoverflow.com/questions/18808226/why-is-typeof-null-object#answer-18808270
       ) {
         this.pushCurrent(child)

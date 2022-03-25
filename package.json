@@ -1,6 +1,6 @@
 {
   "name": "smart-json-stringify",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A native and modern node.js readable-stream to stringify objects at any sizes, without any third-party dependency, with a custom-deep-level option to improve performance if necessary",
   "keywords": [
     "json-stringify",

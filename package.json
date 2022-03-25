@@ -1,0 +1,37 @@
+{
+  "name": "smart-json-stringify",
+  "version": "0.0.0",
+  "description": "A native and modern node.js readable-stream to stringify objects at any sizes, without any third-party dependency, with a custom-deep-level option to improve performance if necessary",
+  "keywords": [
+    "json-stringify",
+    "stream",
+    "JSON",
+    "stringify",
+    "serialize",
+    "big-objects",
+    "huge-objects",
+    "large-objects",
+    "read-stream",
+    "readable-stream",
+    "custom-deep-level"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirismaili/smart-json-stringify"
+  },
+  "license": "MIT",
+  "author": "S. Mahdi Mir-Ismaili <s.m.mirismaili@gmail.com>",
+  "type": "module",
+  "main": "src/main.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "node test/main.test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16"
+  }
+}
